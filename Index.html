@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>FFH4X vt</title>
+<style>
+body{
+    margin:0;
+    background:#0a0a0a;
+    font-family:Arial, sans-serif;
+}
+
+#painel{
+    width:380px;
+    background:#111;
+    color:white;
+    border-radius:12px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    box-shadow:0 0 25px red;
+    overflow:hidden;
+}
+
+.topo{
+    background:red;
+    padding:12px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.abas{
+    display:flex;
+    background:#1a1a1a;
+}
+
+.abas button{
+    flex:1;
+    padding:10px;
+    background:#1a1a1a;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+.abas button:hover{
+    background:red;
+}
+
+.conteudo{
+    padding:15px;
+    display:none;
+}
+
+.conteudo.ativo{
+    display:block;
+}
+
+.opcao{
+    margin-bottom:10px;
+}
+
+button, input[type=range]{
+    cursor:pointer;
+}
+
+.botao{
+    background:red;
+    border:none;
+    padding:8px 12px;
+    color:white;
+    border-radius:6px;
+    margin:5px 0;
+}
+
+.botao:hover{
+    background:darkred;
+}
+
+.status{
+    margin-top:10px;
+    font-weight:bold;
+    text-align:center;
+}
+
+#esconder{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:black;
+    color:red;
+    border:1px solid red;
+    padding:5px 8px;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div id="painel">
+<div class="topo">FFH4X vt</div>
+<button id="esconder">Esconder</button>
+
+<div class="abas">
+<button onclick="abrirAba(0)">Aimbot</button>
+<button onclick="abrirAba(1)">Visual</button>
+<button onclick="abrirAba(2)">Extras</button>
+<button onclick="abrirAba(3)">Config</button>
+</div>
+
+<div class="conteudo ativo">
+<div class="opcao">
+Alvo:
+<button class="botao alvo" onclick="mudarConfig()">Cabeça</button>
+<button class="botao alvo" onclick="mudarConfig()">Pescoço</button>
+<button class="botao alvo" onclick="mudarConfig()">Peito</button>
+</div>
+<div class="opcao">
+FOV:
+<input type="range" min="0" max="100" onchange="mudarConfig()">
+</div>
+</div>
+
+<div class="conteudo">
+<div class="opcao">
+ESP:
+<input type="checkbox" onchange="mudarConfig()">
+</div>
+<div class="opcao">
+Linha:
+<input type="checkbox" onchange="mudarConfig()">
+</div>
+</div>
+
+<div class="conteudo">
+<div class="opcao">
+No Recoil:
+<input type="checkbox" onchange="mudarConfig()">
+</div>
+<div class="opcao">
+Forçar 120FPS:
+<input type="checkbox" onchange="mudarConfig()">
+</div>
+</div>
+
+<div class="conteudo">
+<div class="opcao">
+Sensibilidade:
+<input type="range" min="0" max="200" onchange="mudarConfig()">
+</div>
+</div>
+
+<div style="padding:15px;">
+<button class="botao" id="injetar" onclick="injetar()">Injetar</button>
+<div class="status" id="status"></div>
+</div>
+
+</div>
+
+<script>
+let injetado = false;
+
+function abrirAba(index){
+    let abas = document.querySelectorAll(".conteudo");
+    abas.forEach(a => a.classList.remove("ativo"));
+    abas[index].classList.add("ativo");
+}
+
+function injetar(){
+    let status = document.getElementById("status");
+    let botao = document.getElementById("injetar");
+
+    botao.disabled = true;
+    status.innerText = "Injetando código...";
+
+    setTimeout(()=>{
+        status.innerText = "Códigos injetados com sucesso";
+        botao.disabled = false;
+        injetado = true;
+    },5000);
+}
+
+function mudarConfig(){
+    if(injetado){
+        document.getElementById("status").innerText = "";
+        injetado = false;
+    }
+}
+
+document.getElementById("esconder").onclick = function(){
+    let painel = document.getElementById("painel");
+    if(painel.style.display !== "none"){
+        painel.style.display = "none";
+        this.innerText = "Mostrar";
+        setTimeout(()=>{ painel.style.display="block"; }, 1000);
+    }
+}
+</script>
+
+</body>
+</html>
